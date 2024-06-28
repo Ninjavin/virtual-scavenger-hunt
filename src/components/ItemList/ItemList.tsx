@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
+const ItemList: React.FunctionComponent<any> = ({ items, addItem }) => {
+  const [itemName, setItemName] = useState('');
 
-const ItemList: React.FunctionComponent <any>= ({items, addItem}) => {
-    const [itemName, setItemName] = useState("");
+  const handleAddItem = () => {
+    if (itemName.trim() !== '') {
+      addItem({ id: items.length + 1, name: itemName });
+      setItemName('');
+    }
+  };
 
-    const handleAddItem = () => {
-        if (itemName.trim() !== '') {
-          addItem({ id: items.length + 1, name: itemName });
-          setItemName('');
-        }
-      };
-
-    return (
-        <div>
+  return (
+    <div>
       <h2>Items List</h2>
       <input
         type="text"
@@ -27,7 +26,7 @@ const ItemList: React.FunctionComponent <any>= ({items, addItem}) => {
         ))}
       </ul>
     </div>
-    )
-}
+  );
+};
 
 export default ItemList;

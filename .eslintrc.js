@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   plugins: ['@typescript-eslint'],
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
@@ -9,6 +10,6 @@ module.exports = {
     },
   },
   rules: {
-    // Add custom rules here
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };

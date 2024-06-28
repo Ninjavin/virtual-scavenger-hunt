@@ -1,14 +1,13 @@
-import { useScavengerHunt } from "../../contexts/ScavengerHuntContext";
+// import { useScavengerHunt } from '../../contexts/ScavengerHuntContext';
 
 const ScavengerHunt = () => {
-    const {items, scores, addItem, addScore} =   useScavengerHunt();
+  //   const { items, scores, addItem, addScore } = useScavengerHunt();
 
-    return (
-        <div>
-            <h1> Virtual Scavenger Hunt</h1>
-            
-        </div>
-    )
-}
+  return (
+    <div>
+      <h1> Virtual Scavenger Hunt</h1>
+    </div>
+  );
+};
 
 export default ScavengerHunt;
