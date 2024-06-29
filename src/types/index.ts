@@ -1,6 +1,7 @@
 export interface Item {
   id: number;
   name: string;
+  found: boolean;
 }
 
 export interface Score {

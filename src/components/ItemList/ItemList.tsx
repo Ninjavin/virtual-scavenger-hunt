@@ -1,37 +1,43 @@
 import React, { useState } from 'react';
-import { Item } from '../../types';
+import { useScavengerHunt } from '../../contexts/ScavengerHuntContext';
+import styles from './ItemList.module.css';
 
-interface ItemListProps {
-  items: Item[];
-  addItem: (item: Item) => void;
-}
+const ItemList: React.FC = () => {
+  const { items, addItem, removeItem, toggleItemFound } = useScavengerHunt();
 
-const ItemList: React.FC<ItemListProps> = ({ items, addItem }) => {
   const [newItemName, setNewItemName] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newItemName.trim()) {
-      addItem({ id: Date.now(), name: newItemName.trim() });
+      addItem(newItemName.trim());
       setNewItemName('');
     }
   };
 
   return (
-    <div>
+    <div className={styles.itemList}>
       <h2>Scavenger Hunt Items</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.addItemForm}>
         <input
           type="text"
           value={newItemName}
           onChange={(e) => setNewItemName(e.target.value)}
           placeholder="Enter new item"
+          className={styles.input}
         />
-        <button type="submit">Add Item</button>
+        <button type="submit" className={styles.button}>
+          Add Item
+        </button>
       </form>
-      <ul>
+      <ul className={styles.list}>
         {items.map((item) => (
-          <li key={item.id}>{item.name}</li>
+          <li key={item.id} className={`${styles.item} ${item.found ? styles.found : ''}`}>
+            <span onClick={() => toggleItemFound(item.id)}>{item.name}</span>
+            <button onClick={() => removeItem(item.id)} className={styles.removeButton}>
+              Remove
+            </button>
+          </li>
         ))}
       </ul>
     </div>

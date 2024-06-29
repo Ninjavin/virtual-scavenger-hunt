@@ -1,14 +1,15 @@
 import React from 'react';
-import './App.css';
 import { ScavengerHuntProvider } from './contexts/ScavengerHuntContext';
 import ScavengerHunt from './components/ScavengerHunt/ScavengerHunt';
+import styles from './App.module.css';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <ScavengerHuntProvider>
-      <ScavengerHunt />
-    </ScavengerHuntProvider>
+    <div className={styles.app}>
+      <ScavengerHuntProvider>
+        <ScavengerHunt />
+      </ScavengerHuntProvider>
+    </div>
   );
-}
-
+};
 export default App;

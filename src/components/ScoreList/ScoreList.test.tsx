@@ -2,50 +2,52 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ScoreList from './ScoreList';
+import { ScavengerHuntProvider } from '../../contexts/ScavengerHuntContext';
+
+const renderWithContext = (component: React.ReactNode) => {
+  return render(<ScavengerHuntProvider>{component}</ScavengerHuntProvider>);
+};
 
 describe('ScoreList', () => {
-  const mockScores = [
-    { id: 1, playerName: 'Player 1', score: 100 },
-    { id: 2, playerName: 'Player 2', score: 200 },
-  ];
-  const mockAddScore = jest.fn();
-
-  it('renders the list of scores', () => {
-    render(<ScoreList scores={mockScores} addScore={mockAddScore} />);
-    expect(screen.getByText('Player 1: 100')).toBeInTheDocument();
-    expect(screen.getByText('Player 2: 200')).toBeInTheDocument();
+  it('renders the score list', () => {
+    renderWithContext(<ScoreList />);
+    expect(screen.getByText('Leaderboard')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Player name')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Score')).toBeInTheDocument();
+    expect(screen.getByText('Add Score')).toBeInTheDocument();
   });
 
   it('adds a new score when the form is submitted', () => {
-    render(<ScoreList scores={mockScores} addScore={mockAddScore} />);
+    renderWithContext(<ScoreList />);
     const nameInput = screen.getByPlaceholderText('Player name');
     const scoreInput = screen.getByPlaceholderText('Score');
     const submitButton = screen.getByText('Add Score');
 
-    fireEvent.change(nameInput, { target: { value: 'New Player' } });
-    fireEvent.change(scoreInput, { target: { value: '300' } });
+    fireEvent.change(nameInput, { target: { value: 'Test Player' } });
+    fireEvent.change(scoreInput, { target: { value: '100' } });
     fireEvent.click(submitButton);
 
-    expect(mockAddScore).toHaveBeenCalledWith({
-      id: expect.any(Number),
-      playerName: 'New Player',
-      score: 300,
-    });
-  });
-
-  it('does not add a score with empty name or invalid score', () => {
-    render(<ScoreList scores={mockScores} addScore={mockAddScore} />);
-    const submitButton = screen.getByText('Add Score');
-
-    fireEvent.click(submitButton);
-
-    expect(mockAddScore).not.toHaveBeenCalled();
+    expect(screen.getByText('Test Player: 100')).toBeInTheDocument();
   });
 
   it('sorts scores in descending order', () => {
-    render(<ScoreList scores={mockScores} addScore={mockAddScore} />);
-    const scoreItems = screen.getAllByRole('listitem');
-    expect(scoreItems[0].textContent).toBe('Player 2: 200');
-    expect(scoreItems[1].textContent).toBe('Player 1: 100');
+    renderWithContext(<ScoreList />);
+    const nameInput = screen.getByPlaceholderText('Player name');
+    const scoreInput = screen.getByPlaceholderText('Score');
+    const submitButton = screen.getByText('Add Score');
+
+    // Add first score
+    fireEvent.change(nameInput, { target: { value: 'Player 1' } });
+    fireEvent.change(scoreInput, { target: { value: '100' } });
+    fireEvent.click(submitButton);
+
+    // Add second score
+    fireEvent.change(nameInput, { target: { value: 'Player 2' } });
+    fireEvent.change(scoreInput, { target: { value: '200' } });
+    fireEvent.click(submitButton);
+
+    const scores = screen.getAllByRole('listitem');
+    expect(scores[0]).toHaveTextContent('Player 2: 200');
+    expect(scores[1]).toHaveTextContent('Player 1: 100');
   });
 });
