@@ -1,27 +1,36 @@
 import React, { useState } from 'react';
+import { Item } from '../../types';
 
-const ItemList: React.FunctionComponent<any> = ({ items, addItem }) => {
-  const [itemName, setItemName] = useState('');
+interface ItemListProps {
+  items: Item[];
+  addItem: (item: Item) => void;
+}
 
-  const handleAddItem = () => {
-    if (itemName.trim() !== '') {
-      addItem({ id: items.length + 1, name: itemName });
-      setItemName('');
+const ItemList: React.FC<ItemListProps> = ({ items, addItem }) => {
+  const [newItemName, setNewItemName] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newItemName.trim()) {
+      addItem({ id: Date.now(), name: newItemName.trim() });
+      setNewItemName('');
     }
   };
 
   return (
     <div>
-      <h2>Items List</h2>
-      <input
-        type="text"
-        value={itemName}
-        onChange={(e) => setItemName(e.target.value)}
-        placeholder="Enter item name"
-      />
-      <button onClick={handleAddItem}>Add Item</button>
+      <h2>Scavenger Hunt Items</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={newItemName}
+          onChange={(e) => setNewItemName(e.target.value)}
+          placeholder="Enter new item"
+        />
+        <button type="submit">Add Item</button>
+      </form>
       <ul>
-        {items.map((item: any) => (
+        {items.map((item) => (
           <li key={item.id}>{item.name}</li>
         ))}
       </ul>
