@@ -44,3 +44,38 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Husky and lint-staged setup
+
+```
+PS D:\Dev Projects\scavenger-hunt\virtual-scavenger-hunt> git commit -m "testing setup working"
+[STARTED] Preparing lint-staged...
+[COMPLETED] Preparing lint-staged...
+[STARTED] Running tasks for staged files...
+[STARTED] package.json — 17 files
+[STARTED] src/**/*.{js,jsx,ts,tsx} — 9 files
+[STARTED] prettier --write
+[COMPLETED] prettier --write
+[STARTED] eslint --fix
+[COMPLETED] eslint --fix
+[COMPLETED] src/**/*.{js,jsx,ts,tsx} — 9 files
+[COMPLETED] package.json — 17 files
+[COMPLETED] Running tasks for staged files...
+[STARTED] Applying modifications from tasks...
+[COMPLETED] Applying modifications from tasks...
+[STARTED] Cleaning up temporary files...
+[COMPLETED] Cleaning up temporary files...
+[master 6ead8b9] testing setup working
+ 17 files changed, 14132 insertions(+), 9299 deletions(-)
+ create mode 100644 .babelrc
+ create mode 100644 .husky/pre-commit
+ create mode 100644 __mocks__/fileMock.js
+ create mode 100644 __mocks__/styleMock.js
+ create mode 100644 jest.config.js
+ create mode 100644 src/components/ItemList/ItemList.test.tsx
+ rewrite src/components/ItemList/ItemList.tsx (73%)
+ create mode 100644 src/components/ScoreList/ScoreList.test.tsx
+ create mode 100644 src/components/ScoreList/ScoreList.tsx
+ create mode 100644 src/jest-setup.ts
+ create mode 100644 src/types/index.ts
+```
